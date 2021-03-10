@@ -1,0 +1,164 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+
+<!-- Header -->
+<div class="header bg-primary pb-3">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-4 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0"></h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+              <li class="breadcrumb-item"><a href="/index">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Balance of Payments</li>
+             
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-8 col-5 text-right">
+        <nav class="navbar navbar-default">
+          <a href="#" style="color: aliceblue;"></a>
+          <a href="/records" style="color: aliceblue;">Industrial Activites &nbsp;<i class="ni ni-button-play"></i></a> 
+          </nav>
+        </div>
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+<br>
+<div style="margin-left: 10px;">
+    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#bops">New Record</a> 
+</div>
+<br>
+<h2 style="margin-left: 10px;">Balance of Payments</h2>
+<div class="container-fluid">
+    {% if bops %}
+      <table class="table table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Year</th>
+            <th scope="col">Goods Exports</th>
+            <th scope="col">Goods Imports</th>
+            <th scope="col">Services Exports</th>
+            <th scope="col">Services Imports</th>
+            <th scope="col">Goods BOP</th>
+            <th scope="col">Services BOP</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+        
+         {% for bop in bops %}
+          <tr>
+            <td>{{bop.year}}</td>
+            <td>{{bop.goods_exports}}</td>
+            <td>{{bop.goods_imports}}</td>
+            <td>{{bop.services_exports}}</td>
+            <td>{{bop.services_imports}}</td>
+            <td>{{bop.bop_goods}}</td>
+            <td>{{bop.bop_services}}</td>
+            <td>
+                <!-- <button class="btn btn-sm-success"> <i class="ni ni-pin-3"></i> View</button> -->
+                <a href="#" data-toggle="modal" data-target="#viewRecordModal"><i class="ni ni-pin-3"></i>View</a> 
+            </td>
+          </tr>
+          <div class="modal modal-default fade" id="viewRecordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center" id="viewModalLabel"><i class="far fa-eye"></i> Record Info (US$m)</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+        
+                        <div class="modal-body">
+                          <label> Year: <em>{{bop.year}}</em> </label><br>
+                          <label> Goods Exports: <em>{{bop.goods_exports}}</em> </label><br>
+                          <label> Goods Imports: <em>{{bop.goods_imports}}</em> </label><br>
+                          <label> Services Exports: <em>{{bop.services_exports}}</em> </label><br>
+                          <label> Services Imports: <em>{{bop.services_imports}}</em> </label><br>
+                          <label> Goods BOP: <em>{{bop.bop_goods}}</em> </label><br>
+                          <label> Services BOP: <em>{{bop.bop_services}}</em> </label><br>
+                        </div>
+        
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+          {% endfor %}
+          
+        </tbody>
+      </table>
+    {% else %}
+    <i>No records to show</i>
+    {% endif %}
+</div>
+
+<div class="modal" id="bops" tabindex="-1" role="dialog">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Balance of Payments ($m)</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+      <form action="/records_bop" method="POST"> 
+        <div class="form-group col-md-12">
+          <label>Year</label>
+          <input type="text" class="form-control" name="year" required>
+      </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Goods Exports</label>
+                <input type="text" class="form-control" name="goods_exports" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Good Imports</label>
+              <input type="text" class="form-control" name="goods_imports" required>
+          </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Services Exports</label>
+                <input type="text" class="form-control" name="services_exports" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Services Imports</label>
+              <input type="text" class="form-control" name="services_imports" required>
+          </div>
+          </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                  <label>Goods B.O.P</label>
+                  <input type="text" class="form-control" name="bop_goods" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Services B.O.P</label>
+                <input type="text" class="form-control" name="bop_services" required>
+            </div>
+            </div>
+             
+              
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+    </div>
+    </div>
+</div>
+</div>
+{% include "includes/footer.html" %}
+{% endblock %}
+
+

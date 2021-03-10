@@ -1,0 +1,94 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+
+<!-- Header -->
+<div class="header bg-primary pb-3">
+	<div class="container-fluid">
+	  <div class="header-body">
+		<div class="row align-items-center py-4">
+		  <div class="col-lg-4 col-7">
+			<h6 class="h2 text-white d-inline-block mb-0"></h6>
+			<nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+			  <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+				<li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+				<li class="breadcrumb-item"><a href="/index">Dashboard</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Analysis</li>
+			  </ol>
+			</nav>
+		  </div>
+		  <div class="col-lg-8 col-5 text-right">
+			{% if dataset %}
+				<nav class="navbar navbar-default">
+			  <h1 align='center'>{{ dataset }}:</h1>
+			  <br>
+			  
+			  <a href="/datasets/{{dataset}}" style="color: aliceblue;">Summary</a> |
+			  <a href="/datasets/{{dataset}}/preprocessing" style="color: aliceblue;">Preprocessing</a> |
+			  <a href="/datasets/{{dataset}}/graphs" style="color: aliceblue;">Graphs</a> |
+			  <a href="/datasets/{{dataset}}/predict" style="color: aliceblue;">Predictions</a></h4>
+			  </nav>
+			  {% endif %}
+		  </div>
+		</div>
+	   
+	  </div>
+	</div>
+  </div>
+  
+  <!-- Page content -->
+<div class="container">
+<form class="form-models" method="post" action='/datasets/{{dataset}}/graphprocess/'>
+  <h2 class="form-models-heading" align'center'>Choose your graphs</h2>
+  <div class="row">
+  <div class="col-sm-4">
+	<h3>Histograms:</h3>
+	Select the continuous variables that you want to compare<br>
+	<select multiple name="histogram">
+		<option value=""></option>
+        {% for mod in columns %}
+			<option value="{{mod}}">{{mod}}</option>       
+		{% endfor %}
+	</select>
+	</div>
+  <div class="col-sm-4">
+	<h3>Box Plot (select 2 variables):</h3>
+	Categorical Variable.<br>
+	<select name="boxplotcat">Categorical Variable:
+		<option value=""></option>
+        {% for mod in columns %}
+			<option value="{{mod}}">{{mod}}</option>       
+		{% endfor %}
+	</select><br><br>
+	Numeric Variable<br>
+	<select name="boxplotnum">
+		<option value=""></option>
+        {% for mod in columns %}
+			<option value="{{mod}}">{{mod}}</option>       
+		{% endfor %}
+	</select>
+	</div>
+  <div class="col-sm-4">
+	<h3>Correlation Plots:</h3>
+	Select continuos variables<br>
+    <select multiple name="corr" >
+		<option value=""></option>
+        {% for mod in columns %}
+			<option value="{{mod}}">{{mod}}</option>       
+		{% endfor %}
+	</select><br>
+	Categorical Variable (Variable in data to map plot aspects to different colors) OPTIONAL<br>
+   <select name = "corrcat">
+   Categorical Variable (Variable in data to map plot aspects to different colors) OPTIONAL<br>
+		<option value=""></option> 
+        {% for mod in columns %}
+			<option value="{{mod}}">{{mod}}</option>       
+		{% endfor %}
+  </select>
+  </div>
+  </div>
+  <br>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Show Graphs</button>
+</form>
+</div>
+{% endblock %}
+

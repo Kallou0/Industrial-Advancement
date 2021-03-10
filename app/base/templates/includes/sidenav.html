@@ -3,7 +3,7 @@
     <!-- Brand -->
     <div class="sidenav-header  align-items-center">
       <a class="navbar-brand" href="/">
-        <img src="/static/assets/img/brand/blue.png" class="navbar-brand-img" alt="Argon Dashboard - Flask Template Logo.">
+        <img src="/static/assets/img/brand/blue.png" class="navbar-brand-img" alt="Industrial Advancement" width="80px" height="120px">
       </a>
     </div>
     <div class="navbar-inner">
@@ -17,79 +17,52 @@
               <span class="nav-link-text">Dashboard</span>
             </a>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link {% if 'icons' in segment %} active {% endif %}" href="/icons.html">
-              <i class="ni ni-planet text-orange"></i>
-              <span class="nav-link-text">Icons</span>
+            <a class="nav-link {% if 'analysis' in segment %} active {% endif %}" href="/analysis">
+              <i class="ni ni-align-left-2 text-orange"></i>
+              <span class="nav-link-text">Analysis & Forecasting</span>
             </a>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link {% if 'map' in segment %} active {% endif %}" href="/map.html">
-              <i class="ni ni-pin-3 text-primary"></i>
-              <span class="nav-link-text">Google</span>
+            <a class="nav-link {% if 'primary_sector' in segment %} active {% endif %}" href="/primary_sector">
+              <i class="ni ni-bullet-list-67 text-default"></i>
+              <span class="nav-link-text">Analysis By Sector</span>
             </a>
           </li>
+
+          <!-- <li class="nav-item">
+            <a class="nav-link {% if 'analysis' in segment %} active {% endif %}" href="/analysis">
+              <i class="ni ni-world-2 text-green"></i>
+              <span class="nav-link-text">Industrial Forecasting</span>
+            </a>
+          </li> -->
+
+          <li class="nav-item">
+            <a class="nav-link {% if 'records' in segment %} active {% endif %}" href="/records">
+              <i class="ni ni-money-coins text-default"></i>
+              <span class="nav-link-text">Database Management</span>
+            </a>
+          </li>
+        
           <li class="nav-item">
             <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="/profile.html">
               <i class="ni ni-single-02 text-yellow"></i>
               <span class="nav-link-text">Profile</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link {% if 'tables' in segment %} active {% endif %}" href="/tables.html">
-              <i class="ni ni-bullet-list-67 text-default"></i>
-              <span class="nav-link-text">Tables</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/login.html">
-              <i class="ni ni-key-25 text-info"></i>
-              <span class="nav-link-text">Login</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/register.html">
-              <i class="ni ni-circle-08 text-pink"></i>
-              <span class="nav-link-text">Register</span>
-            </a>
-          </li>
+          
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('base_blueprint.logout') }}">
               <i class="ni ni-user-run text-red"></i>
               <span class="nav-link-text">Logout</span>
             </a>
           </li>
+
         </ul>
         <!-- Divider -->
         <hr class="my-3">
-        <!-- Heading -->
-        <h6 class="navbar-heading p-0 text-muted">
-          <span class="docs-normal">Resources</span>
-        </h6>
-        <!-- Navigation -->
-        <ul class="navbar-nav mb-md-3">
-          <li class="nav-item">
-            <a class="nav-link" href="https://www.creative-tim.com/product/argon-dashboard-flask" target="_blank">
-              <i class="ni ni-palette"></i>
-              <span class="nav-link-text">Product Info</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="https://demos.creative-tim.com/argon-dashboard-flask/docs/1.0/getting-started/getting-started-flask.html" target="_blank">
-              <i class="ni ni-spaceship"></i>
-              <span class="nav-link-text">Docs</span>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link active active-pro" 
-               target="_blank" 
-               href="https://www.creative-tim.com/templates/flask">
-              <i class="ni ni-send text-dark"></i>
-              <span class="nav-link-text">More Starters</span>
-            </a>
-          </li>
-        </ul>
       </div>
     </div>
   </div>

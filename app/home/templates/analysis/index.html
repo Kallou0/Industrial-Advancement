@@ -1,0 +1,90 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-primary pb-6">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <h6 class="h2 text-white d-inline-block mb-0"></h6>
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Analysis</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="col-lg-6 col-5 text-right">
+              <a href="/about" class="btn btn-sm btn-neutral">About System</a>
+            </div>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+
+      <div class="row">
+        <div class="col-xl-8 mb-5 mb-xl-0">
+          <div class="card bg-gradient-default shadow">
+            <div class="card-header bg-transparent">
+            <h2 style="color: aliceblue;">Original Datasets</h2> 
+            </div>
+            <div class="card-body">
+              {% for ds in originalds %}
+              <h3 style="text-align: left; color: rgb(250, 243, 243);"><a href="datasets/{{ds}}">{{ds}}</a></h3>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4">
+          <div class="card shadow">
+            <div class="card-header bg-transparent">
+             <h2 style="color: rgb(17, 135, 238);">Pre-Processed Datasets</h2> 
+            </div>
+            <div class="card-body">
+              {% for ds in featuresds %}
+              <h3 style="text-align: center;color: rgb(60, 157, 236);"><a href="datasets/{{ds}}"></a>{{ds}}</a></h3>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+    </div>
+    <div class="container">
+    </br>
+    
+    </br>
+    <h2 align='center'>Upload your own dataset:</h2>
+    <div align='center'>
+    <form action = "/analysis" method = "POST" 
+             enctype = "multipart/form-data" align='center'>
+             <input type = "file" name = "file" align='center'>
+             <input type = "submit" align='center' value="Upload">
+    </form></div>
+    </div>
+      {% include "includes/footer.html" %}
+
+    
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+  <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
+  <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+
+{% endblock javascripts %}

@@ -1,8 +1,3 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
-
 from flask import jsonify, render_template, redirect, request, url_for
 from flask_login import (
     current_user,
@@ -14,7 +9,7 @@ from flask_login import (
 from app import db, login_manager
 from app.base import blueprint
 from app.base.forms import LoginForm, CreateAccountForm
-from app.base.models import User
+from app.base.models import User, Industry, NetExports
 
 from app.base.util import verify_pass
 
@@ -118,3 +113,55 @@ def not_found_error(error):
 @blueprint.errorhandler(500)
 def internal_error(error):
     return render_template('page-500.html'), 500
+
+@blueprint.route('/records', methods=['GET', 'POST'])
+@login_required
+def records():
+    if request.method=="POST":
+        year =  request.form['year']
+        agric =  request.form['agric']
+        mining =  request.form['mining']
+        manufacturing =  request.form['manufacturing']
+        electricity_water =  request.form['electricity_water']
+        construction =  request.form['construction']
+        distribution =  request.form['distribution']
+        transport =  request.form['transport']
+        financial =  request.form['financial']
+        real_estate =  request.form['real_estate']
+        public_administration =  request.form['public_administration']
+        education =  request.form['education']
+        human_health =  request.form['human_health']
+        domestic_services =  request.form['domestic_services']
+        net_tax =  request.form['net_tax']
+        GDP =  request.form['GDP']
+        industry = Industry(year=year,agric=agric,mining=mining,manufacturing=manufacturing,electricity_water=electricity_water,
+                          construction=construction,distribution=distribution,transport=transport,financial=financial,
+                          real_estate=real_estate,public_administration=public_administration,education=education,
+                          human_health=human_health,domestic_services=domestic_services,net_tax=net_tax,GDP=GDP)
+        db.session.add(industry)
+        db.session.commit()
+        return redirect('/records') 
+    industrial_factors = Industry.query.all()
+    print(industrial_factors)
+    return render_template( 'db_records/records.html', industrial_factors=industrial_factors)
+
+@blueprint.route('/records_bop', methods=['GET', 'POST'])
+@login_required
+def records_bop():
+    if request.method=="POST":
+        year =  request.form['year']
+        goods_imports =  request.form['goods_imports']
+        goods_exports =  request.form['goods_exports']
+        services_exports =  request.form['services_exports']
+        services_imports =  request.form['services_imports']
+        bop_goods =  request.form['bop_goods']
+        bop_services =  request.form['bop_services']
+        bop = NetExports(year=year,goods_imports=goods_imports,goods_exports=goods_exports,services_exports=services_exports,
+                        services_imports=services_imports,bop_goods=bop_goods,bop_services=bop_services)
+        db.session.add(bop)
+        db.session.commit()
+        return redirect('/records_bop')
+    bops = NetExports.query.all()
+    print(bops)
+    return render_template( 'db_records/bop.html', bops=bops)
+

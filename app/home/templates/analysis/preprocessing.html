@@ -1,0 +1,98 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+
+<!-- Header -->
+<div class="header bg-primary pb-3">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-4 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0"></h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+              <li class="breadcrumb-item"><a href="/index">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Analysis</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-8 col-5 text-right">
+          {% if dataset %}
+              <nav class="navbar navbar-default">
+            <h1 align='center'>{{ dataset }}:</h1>
+            <br>
+            
+            <a href="/datasets/{{dataset}}" style="color: aliceblue;">Summary</a> |
+            <a href="/datasets/{{dataset}}/preprocessing" style="color: aliceblue;">Preprocessing</a> |
+            <a href="/datasets/{{dataset}}/graphs" style="color: aliceblue;">Graphs</a> |
+            <a href="/datasets/{{dataset}}/predict" style="color: aliceblue;">Predictions</a></h4>
+            </nav>
+            {% endif %}
+        </div>
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+
+<!-- Page content -->
+<div class="container">
+<form class="form-features" method="post" action='/datasets/{{dataset}}/preprocessed_dataset/'>
+  <h2 class="form-features-heading" align='center'>Choose preprocessing options</h2>
+  <p align='center'>* If you want manual selection, leave blank the "Number of features" field</p>
+  <p align='center'>* Extra preprocessing (normalization, dummy variables...) in model and predict steps.</p></br>
+ 
+ <div class="row-fluid">  
+  <div class="col-xs-4">
+  <h2 align='center'>Feature Selection</h2>
+  
+   <h3>Automatic selection (Chi-squared)</h3>
+  Number of Features (Chi-squared):<br>
+  <input type="text" name="nfeatures">
+  <div>Response Variable:<br>
+  <select name="response">
+        {% for col in columns %}
+			<option value="{{col}}">{{col}}</option>       
+		{% endfor %}
+  </select>
+  </div>
+  
+  	<h3>Manual Selection (Chi-squared)</h3>
+	New Dataset Name: (extension of  {{ dataset}}_)<br>
+	<input type="text" name="newdataset"><br>
+	<div>Variables Selection:<br>
+	<select multiple name="manualfeatures">         
+        {% for col in columns %}
+			<option value="{{col}}">{{col}}</option>       
+		{% endfor %}
+	</select>
+  </div></div>
+
+
+  <div class="col-xs-4">
+  <h2 align='center'>Null values and unique value variables:</h2>
+  
+   <h3>Drop rows with null values if...</h3>
+	<select name="dropna">
+        <option value="all">Null in ALL columns</option>
+        <option value="any">Null in ANY column</option>
+        <option value="no">Never</option>
+  </select>
+ 
+ 
+  	<h3>Drop variables with a unique value</h3>
+	<select name="dropsame">
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+  </select>
+  </div>
+	</div>
+
+  <div>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Create New Dataset</button>
+  </div>
+</form>
+</div>
+
+{% endblock %}

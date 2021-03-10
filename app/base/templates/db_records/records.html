@@ -1,0 +1,249 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+
+<!-- Header -->
+<div class="header bg-primary pb-3">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-4 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0"></h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+              <li class="breadcrumb-item"><a href="/index">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Industrial Activities</li>
+             
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-8 col-5 text-right">
+        <nav class="navbar navbar-default">
+          <a href="#" style="color: aliceblue;"></a>
+          <a href="/records_bop" style="color: aliceblue;">Balance of Payments &nbsp;<i class="ni ni-button-play"></i></a> 
+          
+        </nav>
+        </div>
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+<br>
+<div style="margin-left: 10px;">
+    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#industrial_factors">New Record</a> 
+</div>
+<br>
+<h2 style="margin-left: 10px;">Industrial Activities</h2>
+<div class="container-fluid">
+    {% if industrial_factors %}
+      <table class="table table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th style="width: 10%;">Year</th>
+            <th style="width: 10%;">Agric & Fishing</th>
+            <th style="width: 10%;">Mining</th>
+            <th style="width: 10%;">Manufacturing</th>
+            <th style="width: 10%;">Electricity & Water</th>
+            <th style="width: 10%;">Construction</th>
+            <th style="width: 10%;">Distribution</th>
+            <th style="width: 10%;">GDP</th>
+            <th style="width: 10%;">Action</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+        
+         {% for industrial_factor in industrial_factors %}
+          <tr>
+            <td>{{industrial_factor.year}}</td>
+            <td>{{industrial_factor.agric}}</td>
+            <td>{{industrial_factor.mining}}</td>
+            <td>{{industrial_factor.manufacturing}}</td>
+            <td>{{industrial_factor.electricity_water}}</td>
+            <td>{{industrial_factor.construction}}</td>
+            <td>{{industrial_factor.distribution}}</td>
+            <td>{{industrial_factor.GDP}}</td>
+            <td>
+                <!-- <button class="btn btn-sm-success"> <i class="ni ni-pin-3"></i> View</button> -->
+                <a href="#" data-toggle="modal" data-target="#viewRecordModal"><i class="ni ni-pin-3"></i>View</a> 
+            </td>
+          </tr>
+          <div class="modal modal-default fade" id="viewRecordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center" id="viewModalLabel"><i class="far fa-eye"></i> Record Info (US$m)</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+        
+                        <div class="modal-body">
+                          <label> Year: <em>{{industrial_factor.year}}</em> </label><br>
+                          <label> Agric & Fishing: <em>{{industrial_factor.agric}}</em> </label><br>
+                          <label> Mining: <em>{{industrial_factor.mining}}</em> </label><br>
+                          <label> Manufacturing: <em>{{industrial_factor.manufacturing}}</em> </label><br>
+                          <label> Electricity & Water: <em>{{industrial_factor.electricity_water}}</em> </label><br>
+                          <label> Construction: <em>{{industrial_factor.construction}}</em> </label><br>
+                          <label> Distribution: <em>{{industrial_factor.distribution}}</em> </label><br>
+                          <label> Transport & Communication: <em>{{industrial_factor.transport}}</em> </label><br>
+                          <label> Finance & Insurance: <em>{{industrial_factor.financial}}</em> </label><br>
+                          <label> Real Estate: <em>{{industrial_factor.real_estate}}</em> </label><br>
+                          <label> Public Adminstration: <em>{{industrial_factor.public_administration}}</em> </label><br>
+                          <label> Education: <em>{{industrial_factor.education}}</em> </label><br>
+                          <label> Human Health: <em>{{industrial_factor.human_health}}</em> </label><br>
+                          <label> Domestic Services: <em>{{industrial_factor.domestic_services}}</em> </label><br>
+                          <label> Net Taxes: <em>{{industrial_factor.net_tax}}</em> </label><br>
+                          <label> GDP @ Market Prices: <em>{{industrial_factor.GDP}}</em> </label><br>
+                            
+                        </div>
+        
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+        
+                </div>
+            </div>
+        </div>
+          {% endfor %}
+          
+        </tbody>
+      </table>
+    {% else %}
+    <i>No records to show</i>
+    {% endif %}
+</div>
+
+<div class="modal" id="industrial_factors" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Industrial Factors ($m)</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        
+        <div class="modal-body">
+          <form action="/records" method="POST"> 
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Year</label>
+                        <input type="text" class="form-control" name="year" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Agriculture</label>
+                        <input type="text" class="form-control" name="agric" required>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Mining</label>
+                        <input type="text" class="form-control" name="mining" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Manufacturing</label>
+                        <input type="text" class="form-control" name="manufacturing" required>
+                    </div>
+                  </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                          <label>Electricity & Water</label>
+                          <input type="text" class="form-control" name="electricity_water" required>
+                      </div>
+                      <div class="form-group col-md-6">
+                          <label>Construction</label>
+                          <input type="text" class="form-control" name="construction" required>
+                      </div>
+                    </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Distribution</label>
+                            <input type="text" class="form-control" name="distribution" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Transport & Communication</label>
+                            <input type="text" class="form-control" name="transport" required>
+                        </div>
+                      </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                              <label>Finance & Insurance</label>
+                              <input type="text" class="form-control" name="financial" required>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Real Estate</label>
+                              <input type="text" class="form-control" name="real_estate" required>
+                          </div>
+                       </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                              <label>Public Adminstration</label>
+                              <input type="text" class="form-control" name="public_administration" required>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Education</label>
+                              <input type="text" class="form-control" name="education" required>
+                          </div>
+                      </div>       
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                              <label>Human Health</label>
+                              <input type="text" class="form-control" name="human_health" required>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Domestic Services</label>
+                              <input type="text" class="form-control" name="domestic_services" required>
+                          </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Net Tax</label>
+                            <input type="text" class="form-control" name="net_tax" placeholder="2021" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>GDP</label>
+                            <input type="text" class="form-control" name="GDP" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+              </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="modal modal-danger fade" id="viewRecordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title text-center" id="viewModalLabel"><i class="far fa-eye"></i> View Record Info</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+  
+                  <div class="modal-body">
+                      <input type="hidden" class="form-control" name="id" id="merchantid">
+                      <label> Merchant Code: <em id="merchant_code"></em> </label><br>
+                      
+                  </div>
+  
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                  </div>
+  
+  
+          </div>
+      </div>
+  </div>
+  {% include "includes/footer.html" %}
+
+{% endblock %}
+
+
