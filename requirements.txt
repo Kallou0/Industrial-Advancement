@@ -11,6 +11,8 @@ numpy
 matplotlib
 sklearn
 seaborn
+openpyxl
 xgboost
+
 
 

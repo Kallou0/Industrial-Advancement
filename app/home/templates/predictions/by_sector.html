@@ -1,0 +1,164 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+
+<!-- Header -->
+<div class="header bg-primary pb-3">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-4 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0"></h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+              <li class="breadcrumb-item"><a href="/index">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Forecasting</li>
+             
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-8 col-5 text-right">
+        <nav class="navbar navbar-default">
+          <a href="#" style="color: aliceblue;"></a>
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="/primary_forecasting" style="color: aliceblue;">PRIMARY SECTOR&nbsp;<i class="ni ni-button-play"></i></a>
+          <a href="/secondary_forecasting" style="color: aliceblue;">SECONDARY SECTOR&nbsp;<i class="ni ni-button-play"></i></a> 
+		  <a href="/supportive_forecasting" style="color: aliceblue;">SUPPORTIVE SECTOR&nbsp;<i class="ni ni-button-play"></i></a>  
+          
+        </nav>
+        </div>
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+<br>
+
+<h2 style="margin-left: 10px;"><b>GDP FORECASTING &nbsp;(US$m)</b></h2>
+{% if actual_prediction > 0 %}
+<br>
+<h4 style="margin-left: 10px;">GDP for {{year}} is: &nbsp; US${{actual_prediction}}m</h4>
+<hr>
+{% endif %}
+<div class="container-fluid">
+    <form action="/forecasting" method="POST"> 
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Year</label> <small><i style="color: red;">choose year to forecast and enter outputs for previous year in all fields</i></small> 
+                <select name="year" class="form-control">
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label>	Agiculture, Hunting, Fishing & forestry</label>
+                <input type="number" class="form-control" name="agric" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Mining & Quarrying</label>
+                <input type="number" class="form-control" name="mining" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Manufacturing</label>
+                <input type="number" class="form-control" name="manufacturing" required>
+            </div>
+          </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                  <label>Electricity & Water</label>
+                  <input type="number" class="form-control" name="electricity_water" required>
+              </div>
+              <div class="form-group col-md-6">
+                  <label>Construction</label>
+                  <input type="number" class="form-control" name="construction" required>
+              </div>
+            </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Distribution & Repairs</label>
+                    <input type="number" class="form-control" name="distribution" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Transport & Communication</label>
+                    <input type="number" class="form-control" name="transport" required>
+                </div>
+              </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                      <label>Finance & Insurance</label>
+                      <input type="number" class="form-control" name="financial" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                      <label>Real Estate</label>
+                      <input type="number" class="form-control" name="real_estate" required>
+                  </div>
+               </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                      <label>Public Adminstration & Defence</label>
+                      <input type="number" class="form-control" name="public_administration" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                      <label>Education</label>
+                      <input type="number" class="form-control" name="education" required>
+                  </div>
+              </div>       
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                      <label>Human Health & Social Work</label>
+                      <input type="number" class="form-control" name="human_health" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                      <label>Domestic Services</label>
+                      <input type="number" class="form-control" name="domestic_services" required>
+                  </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Other Services</label>
+                    <input type="number" class="form-control" name="other_services" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Less FISIM</label>
+                    <input type="number" class="form-control" name="fism" required>
+                </div>
+            </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Net Taxes on Producion</label>
+                    <input type="number" class="form-control" name="net_tax" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Net Taxes on Products</label>
+                    <input type="number" class="form-control" name="net_tax_prod" required>
+                </div>
+            </div>
+            <div>
+              <button type="reset" class="btn btn-secondary">Reset</button>
+              <button type="submit" class="btn btn-primary">Forecast</button>
+          </div>
+        </form>
+</div>
+
+  {% include "includes/footer.html" %}
+
+{% endblock %}
+
+

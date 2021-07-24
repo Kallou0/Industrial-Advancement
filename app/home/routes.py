@@ -15,6 +15,29 @@ import plotfunctions as plotfun
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from io import BytesIO
 from app.base.models import User, Industry, NetExports
+import joblib
+import seaborn as sns
+from matplotlib import pyplot as plt 
+import tensorflow as tf
+from sklearn.preprocessing import MinMaxScaler
+from matplotlib.pylab import rcParams
+rcParams['figure.figsize'] = 20,10
+from tensorflow import keras
+from keras.optimizers import RMSprop
+import os
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+from sklearn.metrics import mean_squared_error, mean_squared_log_error
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Dropout
+
+from sklearn.model_selection import train_test_split
+from sklearn import ensemble
+from sklearn.metrics import mean_absolute_error
+scaler = MinMaxScaler(feature_range=(0, 1))
 
 @blueprint.route('/index')
 @login_required
@@ -433,4 +456,117 @@ def internal_error(e):
 def page_not_found(e):
     return render_template('errors/page-404.html')
 
+@blueprint.route('/forecasting', methods = ["GET","POST"])
+@login_required
+def forecasting():
+    forecasting_model = keras.models.load_model("models/forecasting_model.h5")
+    actual_prediction=0
+    year=2021
+    if request.method == "POST":
+        year = request.form['year']
+        data_list = []
+        data_list.append(int(request.form['agric']))
+        data_list.append(int(request.form['mining']))
+        data_list.append(int(request.form['manufacturing']))
+        data_list.append(int(request.form['electricity_water']))
+        data_list.append(int(request.form['construction']))
+        data_list.append(int(request.form['distribution']))
+        data_list.append(int(request.form['transport']))
+        data_list.append(int(request.form['financial']))
+        data_list.append(int(request.form['real_estate']))
+        data_list.append(int(request.form['public_administration']))
+        data_list.append(int(request.form['education']))
+        data_list.append(int(request.form['human_health']))
+        data_list.append(int(request.form['domestic_services']))
+        data_list.append(int(request.form['other_services']))
+        data_list.append(int(request.form['net_tax']))
+        data_list.append(int(request.form['fism']))
+        data_list.append(int(request.form['net_tax_prod']))
 
+        data_array = np.array(data_list).reshape(1,-1)
+        prediction = forecasting_model.predict(data_array)
+        prediction_2d = prediction[0]
+        prediction_1d = prediction_2d[0]
+        actual_prediction = int(prediction_1d)
+        print(actual_prediction)
+    return render_template('/predictions/by_sector.html',actual_prediction=actual_prediction, year=year )
+
+@blueprint.route('/primary_forecasting',  methods = ["GET","POST"])
+@login_required
+def primary_forecasting():
+    actual_prediction=0
+    year=2021
+    activity_ = ''
+    if request.method == "POST":
+        if request.form['activity'] == 'Agriculture':
+            forecasting_model = keras.models.load_model("models/agric_model.h5")
+        elif request.form['activity'] == 'Mining':
+            forecasting_model = keras.models.load_model("models/mining_model.h5")
+        elif request.form['activity'] == 'Manufacturing':
+            forecasting_model = keras.models.load_model("models/manufacturing_model.h5")
+        elif request.form['activity'] == 'Construction':
+            forecasting_model = keras.models.load_model("models/construction_model.h5")
+        else:
+            forecasting_model = keras.models.load_model("models/other_activities_model.h5")
+        
+        year = request.form['year']
+        activity_ = request.form['activity']
+        data_value = int(request.form['previous_value'])
+        data_value = np.reshape(data_value,(-1,1))
+        data_valued = scaler.fit_transform(data_value)
+        data_val = np.reshape(data_valued, (data_valued.shape[0], data_valued.shape[1], 1))
+        prediction = forecasting_model.predict(data_val)
+        prediction_2d = prediction[0]
+        prediction_1d = prediction_2d[0]
+        actual_prediction = int(prediction_1d * 1000)
+        print(actual_prediction)
+    return render_template('/predictions/primary_forecasting.html', year=year,actual_prediction=actual_prediction, activity_=activity_)
+
+@blueprint.route('/secondary_forecasting',  methods = ["GET","POST"])
+@login_required
+def secondary_forecasting():
+    actual_prediction=0
+    year=2021
+    activity_ = ''
+    if request.method == "POST":
+        forecasting_model = keras.models.load_model("models/other_activities_model.h5")
+        
+        year = request.form['year']
+        activity_ = request.form['activity']
+        data_value = int(request.form['previous_value'])
+        data_value = np.reshape(data_value,(-1,1))
+        data_valued = scaler.fit_transform(data_value)
+        data_val = np.reshape(data_valued, (data_valued.shape[0], data_valued.shape[1], 1))
+        prediction = forecasting_model.predict(data_val)
+        prediction_2d = prediction[0]
+        prediction_1d = prediction_2d[0]
+        actual_prediction = int(prediction_1d * 1000)
+        print(actual_prediction)
+    return render_template('/predictions/secondary_forecasting.html', year=year,actual_prediction=actual_prediction, activity_=activity_)
+
+@blueprint.route('/supportive_forecasting',  methods = ["GET","POST"])
+@login_required
+def supportive_forecasting():
+    actual_prediction=0
+    year=2021
+    activity_ = ''
+    if request.method == "POST":
+        forecasting_model = keras.models.load_model("models/other_activities_model.h5")
+        
+        year = request.form['year']
+        activity_ = request.form['activity']
+        data_value = int(request.form['previous_value'])
+        data_value = np.reshape(data_value,(-1,1))
+        data_valued = scaler.fit_transform(data_value)
+        data_val = np.reshape(data_valued, (data_valued.shape[0], data_valued.shape[1], 1))
+        prediction = forecasting_model.predict(data_val)
+        prediction_2d = prediction[0]
+        prediction_1d = prediction_2d[0]
+        actual_prediction = int(prediction_1d * 1000)
+        print(actual_prediction)
+    return render_template('/predictions/supportive_forecasting.html', year=year,actual_prediction=actual_prediction, activity_=activity_)
+
+@blueprint.route('/model_samples')
+@login_required
+def model_samples():
+    return render_template('/models/model_samples.html')

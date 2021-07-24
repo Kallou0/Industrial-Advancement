@@ -1,0 +1,100 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+
+<!-- Header -->
+<div class="header bg-primary pb-3">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-4 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0"></h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+              <li class="breadcrumb-item"><a href="/index">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Forecasting</li>
+             
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-8 col-5 text-right">
+        <nav class="navbar navbar-default">
+          <a href="#" style="color: aliceblue;"></a>
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="#" style="color: aliceblue;"></a> 
+          <a href="/forecasting" style="color: aliceblue;">GDP FORECASTING &nbsp;<i class="ni ni-button-play"></i></a>
+          <a href="/secondary_forecasting" style="color: aliceblue;">SECONDARY SECTOR &nbsp;<i class="ni ni-button-play"></i></a> 
+		  <a href="/supportive_forecasting" style="color: aliceblue;">SUPPORTIVE SECTOR &nbsp;<i class="ni ni-button-play"></i></a>  
+          
+        </nav>
+        </div>
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+<br>
+
+<h2 style="margin-left: 10px;"><b>FORECASTING PRIMARY SECTOR</b></h2>
+{% if actual_prediction > 0 %}
+<br>
+<h4 style="margin-left: 10px;">{{activity_}} forecast for {{year}} is: &nbsp; US${{actual_prediction}}m</h4>
+<hr>
+{% endif %}
+<div class="container-fluid">
+    <form action="/primary_forecasting" method="POST"> 
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Year</label> <small><i style="color: red;">choose year to forecast</i></small> 
+                <select name="year" class="form-control">
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label>	Choose Primary Activity</label>
+                <select name="activity" class="form-control">
+                  <option value="Agriculture">Agriculture</option>
+                  <option value="Mining">Mining</option>
+                  <option value="Manufacturing">Manufacturing</option>
+                  <option value="Construction">Construction</option>
+                  <option value="Electricity & Water">Electricity & Water</option>
+                </select>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label>	Previous Year Output (US$m)</label>
+            <input type="number" class="form-control" name="previous_value" required>
+            </div>
+         
+          
+            <div>
+              <button type="reset" class="btn btn-secondary">Reset</button>
+              <button type="submit" class="btn btn-primary">Forecast</button>
+          </div>
+        </form>
+</div>
+<hr>
+<br>
+<br>
+
+  {% include "includes/footer.html" %}
+
+{% endblock %}
+
+
